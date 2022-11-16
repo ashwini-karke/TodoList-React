@@ -16,6 +16,7 @@ export default function PageContainer({
   itemsPerPage: number;
 }) {
   const todoList: Todo[] = [
+    // Initial list
     {
       likeCnt: 5,
       dislikeCnt: 3,
@@ -26,11 +27,11 @@ export default function PageContainer({
   const [itemOffset, setItemOffset] = useState(0);
   const [list, setList] = useState(todoList);
   const [inputValue, setValue] = useState("");
-  const [emptyErr,setErr]=useState('')
+  const [emptyErr, setErr] = useState("");
 
   function handleLike(e: any) {
+    // Like button login
     const id = e.target.id.slice(4, 6);
-    console.log(id)
     if (
       (list[id].likeCnt === 0 && list[id].dislikeCnt === 0) ||
       (list[id].likeCnt === 5 && list[id].dislikeCnt === 3)
@@ -56,6 +57,7 @@ export default function PageContainer({
   }
 
   function handleDislike(e: any) {
+    // Dislike button logic
     const id = e.target.id.slice(4, 5);
     if (
       (list[id].likeCnt === 0 && list[id].dislikeCnt === 0) ||
@@ -81,17 +83,17 @@ export default function PageContainer({
     setList(sortedList);
   }
 
-  const endOffset = itemOffset + itemsPerPage;
-  const currentItems = list.slice(itemOffset, endOffset);
-  const pageCount = Math.ceil(list.length / itemsPerPage);
+  const endOffset = itemOffset + itemsPerPage; // calc of no. of indexes per page  i.e 0-5, 5-10
+  const currentItems = list.slice(itemOffset, endOffset); // storing that indexes in new variable
+  const pageCount = Math.ceil(list.length / itemsPerPage); // no. of pages required
 
   const handlePageClick = (event: any) => {
-    const newOffset = (event.selected * itemsPerPage) % list.length;
+    const newOffset = (event.selected * itemsPerPage) % list.length; // setting indexes for per page
     setItemOffset(newOffset);
   };
 
   function Items({ currentItems }: { currentItems: Todo[] }) {
-    console.log(itemOffset)
+    // mapping the currentItems new array to the jsx
     return (
       <>
         {currentItems &&
@@ -124,16 +126,15 @@ export default function PageContainer({
 
   function handleSubmit() {
     if (inputValue) {
-      setErr('')
+      setErr("");
       setList((old) => [
+        // Adding new todo to list
         ...old,
         { likeCnt: 0, dislikeCnt: 0, todoText: inputValue },
       ]);
       setValue("");
-    }
-    else
-    {
-      setErr('Please fill out this field')
+    } else {
+      setErr("Please fill out this field");
     }
   }
 
@@ -149,12 +150,12 @@ export default function PageContainer({
         />
 
         {emptyErr && <p className="err-msg">{emptyErr}</p>}
-        
       </div>
-
-      <Items currentItems={currentItems} />
-
+      <Items currentItems={currentItems} />{" "}
+      {/* Displaying the mapped currentItems component to UI pagewise*/}
       <div className="pagination-wrapper">
+        {" "}
+        {/* React Pagination component */}
         {list.length > 5 && (
           <ReactPaginate
             breakLabel="..."
@@ -163,7 +164,6 @@ export default function PageContainer({
             pageRangeDisplayed={5}
             pageCount={pageCount}
             previousLabel="Previous"
-            // renderOnZeroPageCount={null}
           />
         )}
       </div>
