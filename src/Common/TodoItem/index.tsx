@@ -1,4 +1,3 @@
-
 import Button from "../Button";
 import "./styles.css";
 interface TodoItemProps {
