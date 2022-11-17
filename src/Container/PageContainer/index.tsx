@@ -28,30 +28,28 @@ export default function PageContainer({
   const [list, setList] = useState(todoList);
   const [inputValue, setValue] = useState("");
   const [emptyErr, setErr] = useState("");
+  const [newlike, setLike] = useState(0);
 
   function handleLike(e: any) {
     // Like button login
+
     const id = e.target.id.slice(4, 6);
-    if (
-      (list[id].likeCnt === 0 && list[id].dislikeCnt === 0) ||
-      (list[id].likeCnt === 5 && list[id].dislikeCnt === 3)
-    ) {
+    const dislike = list[id].dislikeCnt;
+
+    if (list[id].likeCnt === 0 || list[id].likeCnt === 5) {
       list[id].likeCnt += 1;
-    } else if (
-      (list[id].likeCnt === 1 && list[id].dislikeCnt === 0) ||
-      (list[id].likeCnt === 6 && list[id].dislikeCnt === 3)
-    ) {
+      if (list[id].dislikeCnt > 3) {
+        list[id].dislikeCnt -= 1;
+      }
+      if (list[id].dislikeCnt === 1) {
+        list[id].dislikeCnt -= 1;
+      }
+    } else if (list[id].likeCnt === 1 || list[id].likeCnt === 6) {
       list[id].likeCnt -= 1;
-    } else if (
-      (list[id].likeCnt === 0 && list[id].dislikeCnt === 1) ||
-      (list[id].likeCnt === 5 && list[id].dislikeCnt === 4)
-    ) {
-      list[id].likeCnt += 1;
-      list[id].dislikeCnt -= 1;
     }
 
     const sortedList = [...list].sort((a, b) => {
-      return b.likeCnt - a.likeCnt;
+      return b.likeCnt - b.dislikeCnt - (a.likeCnt - a.dislikeCnt);
     });
     setList(sortedList);
   }
@@ -59,26 +57,24 @@ export default function PageContainer({
   function handleDislike(e: any) {
     // Dislike button logic
     const id = e.target.id.slice(4, 5);
-    if (
-      (list[id].likeCnt === 0 && list[id].dislikeCnt === 0) ||
-      (list[id].likeCnt === 5 && list[id].dislikeCnt === 3)
-    ) {
+    const like = list[id].likeCnt;
+    setLike(list[id].likeCnt);
+    console.log(like);
+
+    if (list[id].dislikeCnt === 0 || list[id].dislikeCnt === 3) {
       list[id].dislikeCnt += 1;
-    } else if (
-      (list[id].likeCnt === 1 && list[id].dislikeCnt === 0) ||
-      (list[id].likeCnt === 6 && list[id].dislikeCnt === 3)
-    ) {
-      list[id].dislikeCnt += 1;
-      list[id].likeCnt -= 1;
-    } else if (
-      (list[id].likeCnt === 0 && list[id].dislikeCnt === 1) ||
-      (list[id].likeCnt === 5 && list[id].dislikeCnt === 4)
-    ) {
+      if (list[id].likeCnt > 5) {
+        list[id].likeCnt -= 1;
+      }
+      if (list[id].likeCnt === 1) {
+        list[id].likeCnt -= 1;
+      }
+    } else if (list[id].dislikeCnt === 1 || list[id].dislikeCnt === 4) {
       list[id].dislikeCnt -= 1;
     }
 
     const sortedList = [...list].sort((a, b) => {
-      return b.likeCnt - a.likeCnt;
+      return b.likeCnt - b.dislikeCnt - (a.likeCnt - a.dislikeCnt);
     });
     setList(sortedList);
   }
