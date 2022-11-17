@@ -1,8 +1,8 @@
 import Button from "../../Common/Button";
-import TodoText from "../../Common/TodoText";
 import "./styles.css";
 import React, { useState } from "react";
 import ReactPaginate from "react-paginate";
+import TodoItem from "../../Common/TodoItem";
 
 interface Todo {
   likeCnt: number;
@@ -28,13 +28,11 @@ export default function PageContainer({
   const [list, setList] = useState(todoList);
   const [inputValue, setValue] = useState("");
   const [emptyErr, setErr] = useState("");
-  const [newlike, setLike] = useState(0);
 
   function handleLike(e: any) {
     // Like button login
 
     const id = e.target.id.slice(4, 6);
-    const dislike = list[id].dislikeCnt;
 
     if (list[id].likeCnt === 0 || list[id].likeCnt === 5) {
       list[id].likeCnt += 1;
@@ -57,10 +55,6 @@ export default function PageContainer({
   function handleDislike(e: any) {
     // Dislike button logic
     const id = e.target.id.slice(4, 5);
-    const like = list[id].likeCnt;
-    setLike(list[id].likeCnt);
-    console.log(like);
-
     if (list[id].dislikeCnt === 0 || list[id].dislikeCnt === 3) {
       list[id].dislikeCnt += 1;
       if (list[id].likeCnt > 5) {
@@ -95,21 +89,14 @@ export default function PageContainer({
         {currentItems &&
           currentItems.map(
             (data: Todo, index: number): JSX.Element => (
-              <div key={index} className="todo-item">
-                <Button
-                  id={"todo" + (itemOffset + index)}
-                  btnClass="fa fa-thumbs-o-up"
-                  label={data.likeCnt}
-                  handleClick={handleLike}
-                />
-                <Button
-                  id={"todo" + (itemOffset + index)}
-                  btnClass="fa fa-thumbs-o-down"
-                  label={data.dislikeCnt}
-                  handleClick={handleDislike}
-                />
-                <TodoText text={data.todoText} />
-              </div>
+              <TodoItem
+                id={"todo" + (itemOffset + index)}
+                handleLike={handleLike}
+                handleDislike={handleDislike}
+                likeCnt={data.likeCnt}
+                dislikeCnt={data.dislikeCnt}
+                todoText={data.todoText}
+              />
             )
           )}
       </>
