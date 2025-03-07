@@ -1,0 +1,39 @@
+.submit {
+  width: 69px;
+  height: 34px;
+  color: #fff;
+  background-color: #337ab7;
+  border-color: #2e6da4;
+  border: 1px solid transparent;
+  border-radius: 4px;
+}
+.fa-thumbs-o-up,
+.fa-thumbs-o-down {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  width: 56px;
+  height: 38px;
+  margin-right: 5px;
+  align-items: center;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+}
+.fa-thumbs-o-up {
+  color: green;
+  margin-left: 40px;
+}
+.fa-thumbs-o-down {
+  color: red;
+}
+
+.fa-thumbs-o-up:before {
+  content: "\f087";
+  color: black;
+}
+.fa-thumbs-o-down:before {
+  content: "\f088";
+  color: black;
+}
