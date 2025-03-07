@@ -124,7 +124,11 @@ export default function PageContainer({
   return (
     <div className="page-conatiner">
       <div className="input-btn-container">
-        <input value={inputValue} onChange={handleOnChangeInput} required />
+        <input value={inputValue} onChange={handleOnChangeInput} onKeyDown={(e) => {
+      if (e.key === "Enter") {
+        handleSubmit();
+      }
+    }} required />
         <Button
           id="btn"
           btnClass="submit"
